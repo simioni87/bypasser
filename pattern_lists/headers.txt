@@ -1,0 +1,15 @@
+Client-IP: 127.0.0.1
+X-Real-Ip: 127.0.0.1
+Redirect: 127.0.0.1
+Referer: 127.0.0.1
+X-Client-IP: 127.0.0.1
+X-Custom-IP-Authorization: 127.0.0.1
+X-Forwarded-By: 127.0.0.1
+X-Forwarded-For: 127.0.0.1
+X-Forwarded-Host: 127.0.0.1
+X-Forwarded-Port: 80
+X-True-IP: 127.0.0.1
+X-Originating-IP: 127.0.0.1
+Forwarded-For: 127.0.0.1
+Host: localhost
+True-Client-IP: 127.0.0.1

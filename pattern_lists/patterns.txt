@@ -1,0 +1,24 @@
+#RULE_1: Replace last slash with (e.g.: /a/b/c -> /a/b%2fc)
+%2e
+%2e%2e
+%5c
+%2f
+../
+\
+#RULE_2: Append at the end: (e.g.: /a/b/c -> /a/b/c/.)
+/.
+%20/
+?
+???
+//
+/
+..;/
+#RULE_3: Match and Replace Slash - With and Without an appended Slash (e.g.: /a/b/c -> \a\b\c AND \a\b\c\)
+\
+%2f
+%5c
+//
+/./
+#RULE_4: Append at any path element (e.g. /a/b/c -> /a;a=b/b/c/ AND /a/b;a=b/c/ AND /a/b/c;a=b/)
+;a=b
+../
