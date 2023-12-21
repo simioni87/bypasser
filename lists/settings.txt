@@ -1,0 +1,2 @@
+#Define Status codes to indicate a forbidden response (Issue will be created if the response is NOT forbidden)
+forbiddenStatusCodes=403,401

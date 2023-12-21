@@ -14,7 +14,6 @@ public class ContextMenuController implements IContextMenuFactory {
 	private final HashMap<String,ArrayList<String>> patternMap;
 	private final ArrayList<String> headerList;
 	private final ThreadPoolExecutor threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
-	private int[] forbiddenStatusCodes = new int[] {403,401};
 	
 	public ContextMenuController(HashMap<String,ArrayList<String>> patternMap, ArrayList<String> headerList) {
 		this.patternMap = patternMap;
@@ -88,7 +87,7 @@ public class ContextMenuController implements IContextMenuFactory {
 	private void checkAndCreateIssue(IHttpRequestResponse requestResponse) {
 		if(requestResponse.getResponse() != null) {
 			IResponseInfo responseInfo = BurpExtender.callbacks.getHelpers().analyzeResponse(requestResponse.getResponse());
-			for(int code : forbiddenStatusCodes) {
+			for(int code : Settings.getForbiddenStatusCodes()) {
 				if(responseInfo.getStatusCode() == code) {
 					IScanIssue issue = new BypasserIssue(requestResponse);
 					BurpExtender.callbacks.addScanIssue(issue);
