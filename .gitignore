@@ -26,3 +26,5 @@ replay_pid*
 target/*
 backlog.txt
 notes.txt
+.classpath
+.settings
