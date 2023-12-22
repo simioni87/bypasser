@@ -43,8 +43,9 @@ public class ContextMenuController implements IContextMenuFactory {
 	}
 	
 	private void doPathModifications(IRequestInfo requestInfo, IHttpService httpService, byte[] requestBody) {
+		
 		List<String> headerList = new ArrayList<>(requestInfo.getHeaders());
-		if(headerList.get(0) != null) {
+		if(headerList.size() > 0) {
 			String[] firstHeaderSplit = headerList.get(0).split(" ");
 			if(firstHeaderSplit.length == 3) {
 				String method = firstHeaderSplit[0];
@@ -57,7 +58,7 @@ public class ContextMenuController implements IContextMenuFactory {
 					headerList.set(0, modifiedFirstHeader);
 					byte[] modifiedMessage = BurpExtender.callbacks.getHelpers().buildHttpMessage(headerList, requestBody);
 					BurpExtender.callbacks.printOutput(("Request (Path): " + modifiedFirstHeader));
-					repeatRequest(httpService, modifiedMessage);
+					repeatRequest(httpService, modifiedMessage, "Bypass through Path: " + modifiedPath);
 				}
 			}
 		}	
@@ -65,33 +66,39 @@ public class ContextMenuController implements IContextMenuFactory {
 	
 	private void doHeaderModifications(IRequestInfo requestInfo, IHttpService httpService, byte[] requestBody) {
 		for(String header : headerList) {
-			List<String> requestHeaders = requestInfo.getHeaders();
-			requestHeaders.add(header);
-			byte[] modifiedMessage = BurpExtender.callbacks.getHelpers().buildHttpMessage(requestHeaders, requestBody);
+			List<String> headerList = new ArrayList<>(requestInfo.getHeaders());
+			headerList.add(header);
+			byte[] modifiedMessage = BurpExtender.callbacks.getHelpers().buildHttpMessage(headerList, requestBody);
 			BurpExtender.callbacks.printOutput(("Request (Header): " + header));
-			repeatRequest(httpService, modifiedMessage);
+			repeatRequest(httpService, modifiedMessage, "Bypass through Header: " + header);
 		}
 	}
 
-	private void repeatRequest(IHttpService httpService, byte[] request) {
+	private void repeatRequest(IHttpService httpService, byte[] request, String message) {
 		threadPool.execute(new Runnable() {
 			
 			@Override
 			public void run() {					
 				IHttpRequestResponse requestResponse = BurpExtender.callbacks.makeHttpRequest(httpService, request);
-				checkAndCreateIssue(requestResponse);
+				checkAndCreateIssue(requestResponse, message);
 			}
 		});
 	}
 	
-	private void checkAndCreateIssue(IHttpRequestResponse requestResponse) {
+	private void checkAndCreateIssue(IHttpRequestResponse requestResponse, String message) {
 		if(requestResponse.getResponse() != null) {
 			IResponseInfo responseInfo = BurpExtender.callbacks.getHelpers().analyzeResponse(requestResponse.getResponse());
-			for(int code : Settings.getForbiddenStatusCodes()) {
-				if(responseInfo.getStatusCode() == code) {
-					IScanIssue issue = new BypasserIssue(requestResponse);
-					BurpExtender.callbacks.addScanIssue(issue);
+			boolean codeInForbiddenList = false;
+			for(short code : Settings.getForbiddenStatusCodes()) {
+				short firstDigit = Short.parseShort(Short.toString(responseInfo.getStatusCode()).substring(0, 1));
+				if(firstDigit == code) {
+					codeInForbiddenList = true;
+					break;
 				}
+			}
+			if(!codeInForbiddenList) {
+				IScanIssue issue = new BypasserIssue(requestResponse, message);
+				BurpExtender.callbacks.addScanIssue(issue);
 			}
 		}
 	}

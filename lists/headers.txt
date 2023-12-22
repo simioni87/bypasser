@@ -54,7 +54,6 @@ Forwarded-For: 2130706433
 Forwarded-For: localhost
 Forwarded-For: localhost:443
 Forwarded-For: localhost:80
-Host
 Host: 0
 Host: 0177.0000.0000.0001
 Host: 0x7F000001

@@ -1,11 +1,19 @@
-#RULE_1: Replace last slash with (e.g.: /a/b/c -> /a/b%2fc)
+#RULE_1: Replace last slash with specified pattern (e.g.: /a/b/c -> /a/b%2fc)
 %2e
 %2e%2e
 %5c
 %2f
 ../
 \
-#RULE_2: Append at the end: (e.g.: /a/b/c -> /a/b/c/.)
+%3f
+%26
+%23
+.json
+%%%%20%%%%23%%%%3f
+%%%%252f%%%%252f
+%%%%2f
+%%%%2f%%%%20%%%%23
+#RULE_2: Append at the end (e.g.: /a/b/c -> /a/b/c/.)
 /.
 %20/
 ?
@@ -13,6 +21,25 @@
 //
 /
 ..;/
+//.
+/%20
+*
+/*/
+??
+&
+./.
+%2f/
+..%2f
+..%00/
+..%0d
+..%5c
+..%ff/
+%2e%2e%2f
+.%2e/
+%3f
+%26
+%23
+.json
 #RULE_3: Match and Replace Slash - With and Without an appended Slash (e.g.: /a/b/c -> \a\b\c AND \a\b\c\)
 \
 %2f

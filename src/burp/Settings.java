@@ -2,13 +2,13 @@ package burp;
 
 public class Settings {
 	
-	private static int[] forbiddenStatusCodes = new int[] {403,401};
+	private static short[] forbiddenStatusCodes = new short[] {403,401};
 	
-	public static void setForbiddenStatusCodes(int[] forbiddenStatusCodes) {
+	public static void setForbiddenStatusCodes(short[] forbiddenStatusCodes) {
 		Settings.forbiddenStatusCodes = forbiddenStatusCodes;
 	}
 	
-	public static int[] getForbiddenStatusCodes() {
+	public static short[] getForbiddenStatusCodes() {
 		return forbiddenStatusCodes;
 	}
 

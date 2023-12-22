@@ -23,7 +23,7 @@ public class BurpExtender implements IBurpExtender {
 		File patternFile = new File("patterns.txt");
 		File headerFile = new File("headers.txt");
 		File settingsFile = new File("settings.txt");
-		if (!patternFile.exists() || !patternFile.exists()) {
+		if (!patternFile.exists() || !patternFile.exists() || !settingsFile.exists()) {
 			callbacks.printOutput("Needed Lists not found. Following Files must be created first:");
 			callbacks.printOutput(System.getProperty("user.dir") + "\\" + patternFile.getName());
 			callbacks.printOutput(System.getProperty("user.dir") + "\\" + headerFile.getName());
@@ -33,7 +33,7 @@ public class BurpExtender implements IBurpExtender {
 			callbacks.printOutput("Pattern List Loaded: " + patternFile.getAbsolutePath());
 			callbacks.printOutput("Header List Loaded: " + headerFile.getAbsolutePath());
 			callbacks.printOutput("Settings Loaded: " + settingsFile.getAbsolutePath());
-			callbacks.printOutput(Globals.EXTENSION_NAME + " successfully started");
+			callbacks.printOutput(Globals.EXTENSION_NAME + " successfully started...");
 			callbacks.printOutput("Version " + Globals.VERSION);
 			readSettings(settingsFile);
 			callbacks.registerContextMenuFactory(
@@ -70,7 +70,9 @@ public class BurpExtender implements IBurpExtender {
 			String currentRule = null;
 			while (line != null) {
 				if (line.trim().startsWith("#")) {
-					currentRule = line.split(":")[0].replace("#", "");
+					if(line.startsWith("#RULE_")) {
+						currentRule = line.split(":")[0].replace("#", "");
+					}
 				} else {
 					if (currentRule == null) {
 						callbacks.printOutput("Something is wrong with your pattern file. Use following syntax:\n"
@@ -84,7 +86,6 @@ public class BurpExtender implements IBurpExtender {
 				}
 				line = reader.readLine();
 			}
-
 			reader.close();
 		} catch (IOException e) {
 			BurpExtender.callbacks.printError(e.getMessage());
@@ -100,11 +101,11 @@ public class BurpExtender implements IBurpExtender {
 			//Read forbidden status codes
 			String forbiddenStatusCodes = prop.getProperty("forbiddenStatusCodes");
 			if(forbiddenStatusCodes != null) {
-				List<Integer> codeList = new ArrayList<>();
+				List<Short> codeList = new ArrayList<>();
 				for(String statusCode : forbiddenStatusCodes.split(",")) {
-					codeList.add(Integer.parseInt(statusCode));
+					codeList.add(Short.parseShort(statusCode));
 				}
-				int[] codeArray = new int[codeList.size()];
+				short[] codeArray = new short[codeList.size()];
 				for(int i=0; i<codeList.size(); i++) {
 					codeArray[i] = codeList.get(i);
 				}
