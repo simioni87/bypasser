@@ -24,10 +24,12 @@ public class BurpExtender implements IBurpExtender {
 		File headerFile = new File("headers.txt");
 		File settingsFile = new File("settings.txt");
 		if (!patternFile.exists() || !patternFile.exists() || !settingsFile.exists()) {
-			callbacks.printOutput("Needed Lists not found. Following Files must be created first:");
+			callbacks.printOutput("Needed Lists not found:");
 			callbacks.printOutput(System.getProperty("user.dir") + "\\" + patternFile.getName());
 			callbacks.printOutput(System.getProperty("user.dir") + "\\" + headerFile.getName());
 			callbacks.printOutput(System.getProperty("user.dir") + "\\" + settingsFile.getName());
+			callbacks.printOutput("Example Lists can be found here:");
+			callbacks.printOutput("https://github.com/simioni87/bypasser/tree/main/lists");
 			callbacks.unloadExtension();
 		} else {
 			callbacks.printOutput("Pattern List Loaded: " + patternFile.getAbsolutePath());
