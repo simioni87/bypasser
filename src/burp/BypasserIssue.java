@@ -1,6 +1,5 @@
 package burp;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 public class BypasserIssue implements IScanIssue {
 

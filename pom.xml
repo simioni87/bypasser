@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.protect7</groupId>
 	<artifactId>bypasser</artifactId>
-	<version>0.2</version>
+	<version>0.3</version>
 	<name>Bypasser</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

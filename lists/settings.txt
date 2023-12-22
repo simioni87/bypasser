@@ -1,2 +1,4 @@
-#Define First Digit of Status codes to indicate a forbidden response (Issue will be created if the first digit of the response code does NOT match) (4 --> 400,401,402,...)
+#Define First Digit of Status codes to indicate a forbidden response (Issue will be created if the first digit of the response code is NOT the same) (4 --> 400,401,402,...)
 forbiddenStatusCodes=4,5
+#Define delay between requests in millis
+delayBetweenRequests=100

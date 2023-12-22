@@ -113,6 +113,10 @@ public class BurpExtender implements IBurpExtender {
 				}
 				Settings.setForbiddenStatusCodes(codeArray);
 			}
+			String delayBetweenRequests = prop.getProperty("delayBetweenRequests");
+			if(delayBetweenRequests != null) {
+				Settings.setDealayBetweenRequests(Long.parseLong(delayBetweenRequests));
+			}
 
 		} catch (IOException ex) {
 			callbacks.printError(ex.getMessage());
